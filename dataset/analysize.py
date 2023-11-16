@@ -1,35 +1,35 @@
 import pandas as pd
 import numpy as np
 
-# Read the csv file
+
 df = pd.read_csv('movie_profit.csv')
 
-# Filter the data for R-rated and PG-13-rated horror movies
+#фильтр R и PG-13
 r_movies = df[df['mpaa_rating'] == 'R']['production_budget']
 pg13_movies = df[df['mpaa_rating'] == 'PG-13']['production_budget']
 
-# Calculate the means of the two groups
+# Вычисление средних значений для двух групп
 r_mean = r_movies.mean()
 pg13_mean = pg13_movies.mean()
 
-# Calculate the standard deviations of the two groups
+# Вычисление стандартных отклонений для двух групп
 r_std = r_movies.std()
 pg13_std = pg13_movies.std()
 
-# Calculate the standard error of the mean for the two groups
+# Вычисление стандартной ошибки среднего для двух групп
 r_sem = r_std / (r_movies.count() ** 0.5)
 pg13_sem = pg13_std / (pg13_movies.count() ** 0.5)
 
-# Calculate the t-statistic
+# Вычисление t-статистики
 t_stat = (r_mean - pg13_mean) / ((r_sem ** 2 + pg13_sem ** 2) ** 0.5)
 
-# Calculate the degrees of freedom
+# Вычисление степеней свободы
 df = r_movies.count() + pg13_movies.count() - 2
 
-# Calculate the p-value
+# Вычисление p-значения
 p_value = 2 * (1 - (1 - np.abs(t_stat)) ** df)
 
-# Print the results
+# Вывод результатов
 print('t-статистика [мера разлиичия меж выборками]:', t_stat)
 print('p-значение [ероятность получения таких же или более экстремальных результатов]:', p_value)
 
